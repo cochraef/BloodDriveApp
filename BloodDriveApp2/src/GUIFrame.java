@@ -1,13 +1,24 @@
 import java.awt.Dimension;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
+import javax.swing.JTable;
+import javax.swing.JTextField;
+import javax.swing.table.DefaultTableModel;
 
 @SuppressWarnings("serial")
 public class GUIFrame extends JFrame {
 	private static final int WIDTH = 1000;
 	private static final int HEIGHT = 1000;
+	
+	public JTable table;
+	public JTextField textbox;
 	
 	public GUIFrame() {
 		this.setMinimumSize(new Dimension(WIDTH, HEIGHT));
@@ -34,6 +45,48 @@ public class GUIFrame extends JFrame {
 	private void CreateAppointmentSearcher(JPanel panel) {
 		panel.setMinimumSize(new Dimension(WIDTH/2, HEIGHT/2));
 		
+		String[] columnNames = {"First Name",
+                "Last Name",
+                "Sport",
+                "# of Years",
+                "Vegetarian"};
+		
+		Object[][] data = {
+			    {"Kathy", "Smith",
+			     "Snowboarding", new Integer(5), new Boolean(false)},
+			    {"John", "Doe",
+			     "Rowing", new Integer(3), new Boolean(true)},
+			    {"Sue", "Black",
+			     "Knitting", new Integer(2), new Boolean(false)},
+			    {"Jane", "White",
+			     "Speed reading", new Integer(20), new Boolean(true)},
+			    {"Joe", "Brown",
+			     "Pool", new Integer(10), new Boolean(false)}
+			};
+		
+		table = new JTable(data, columnNames);
+		
+		JScrollPane scrollPane = new JScrollPane(table);
+		table.setFillsViewportHeight(true);
+		
+		panel.add(scrollPane);
+		add(panel);
+		
+//		DefaultTableModel model = new DefaultTableModel();
+////		model.addColumn(columnNames);
+//		table = new JTable();
+//		table.setModel(model); 
+//		table.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
+//		table.setFillsViewportHeight(true);
+//		JScrollPane scroll = new JScrollPane(table);
+//		scroll.setHorizontalScrollBarPolicy(
+//		JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+//		scroll.setVerticalScrollBarPolicy(
+//		JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED); 
+//		table.addColumn(columnNames);
+//		panel.add(table);
+//		add(panel);
+
 	}
 
 }
