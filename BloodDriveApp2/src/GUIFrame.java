@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
@@ -20,9 +21,13 @@ public class GUIFrame extends JFrame {
 	public JTable table;
 	public JTextField textbox;
 	
-	public GUIFrame() {
+	public GUIFrame(DatabaseConnectionService db) {
 		this.setMinimumSize(new Dimension(WIDTH, HEIGHT));
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		
+		if(db.getConnection() == null) {
+			 JOptionPane.showMessageDialog(null, "Failed to connect to the database!");
+		}
 		
 		JPanel panel1 = new JPanel(), panel2 = new JPanel(), panel3 = new JPanel();
 		CreateAppointmentSearcher(panel1);
