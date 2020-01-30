@@ -3,6 +3,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -61,6 +62,8 @@ public class GUIFrame extends JFrame {
 		
 		JButton searchButton = new JButton("Search for appointments");
 		
+		JCheckBox donorBox = new JCheckBox("Donor?");
+		
 		searchButton.addActionListener(new ActionListener() {
 				
 				@Override
@@ -73,7 +76,7 @@ public class GUIFrame extends JFrame {
 					
 					String[] columnNames = {"Appointment Date", "Appointment Time", "Street Line 1", "Street Line 2", "City", "State", "Zip Code"};
 					
-					Object[][] data = ar.getAppointments(usernameInput.getText());
+					Object[][] data = ar.getAppointments(usernameInput.getText(), donorBox.isSelected());
 					
 					JTable table = new JTable(data, columnNames);
 					
@@ -89,6 +92,7 @@ public class GUIFrame extends JFrame {
 			});
 		
 		panel.add(searchButton);
+		panel.add(donorBox);
 		panel.add(usernameInput);
 		
 		add(panel);

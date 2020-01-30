@@ -1,4 +1,3 @@
-import java.sql.CallableStatement;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -13,12 +12,13 @@ public class AppointmentRetrivalService {
 		this.dbService = dbService;
 	}
 	
-	public Object[][] getAppointments(String username) {
+	public Object[][] getAppointments(String username, Boolean isDonor) {
 		
 		try {
-			String query = "SELECT * FROM GetPersonAppointments(?, 1)";
+			String query = "SELECT * FROM GetPersonAppointments(?, ?)";
 			PreparedStatement stmt = dbService.getConnection().prepareStatement(query);
 			stmt.setString(1, username);
+			stmt.setBoolean(2, isDonor);
 			ResultSet rs = stmt.executeQuery();
 			return parseResults(rs);
 
