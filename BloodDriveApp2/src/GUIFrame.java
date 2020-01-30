@@ -1,9 +1,4 @@
 import java.awt.Dimension;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -11,7 +6,6 @@ import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
-import javax.swing.table.DefaultTableModel;
 
 @SuppressWarnings("serial")
 public class GUIFrame extends JFrame {
@@ -21,6 +15,8 @@ public class GUIFrame extends JFrame {
 	public JTable table;
 	public JTextField textbox;
 	
+	public DatabaseConnectionService db = null;
+	
 	public GUIFrame(DatabaseConnectionService db) {
 		setMinimumSize(new Dimension(WIDTH, HEIGHT));
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -29,6 +25,8 @@ public class GUIFrame extends JFrame {
 			 JOptionPane.showMessageDialog(this, "Failed to connect to the database!");
 			 return;
 		}
+		
+		this.db = db;
 		
 		JPanel panel1 = new JPanel(), panel2 = new JPanel(), panel3 = new JPanel();
 		CreateAppointmentSearcher(panel1);
@@ -49,28 +47,21 @@ public class GUIFrame extends JFrame {
 	}
 	
 	private void CreateAppointmentSearcher(JPanel panel) {
-		panel.setMinimumSize(new Dimension(WIDTH/2, HEIGHT/2));
+		panel.setMinimumSize(new Dimension(WIDTH, HEIGHT));
 		
-		String[] columnNames = {"First Name",
-                "Last Name",
-                "Sport",
-                "# of Years",
-                "Vegetarian"};
+		String[] columnNames = {"Appointment Date",
+				"Appointment Time",
+				"Street Line 1",
+				"Street Line 2",
+				"City",
+				"State",
+				"Zip Code"};
 		
-		Object[][] data = {
-			    {"Kathy", "Smith",
-			     "Snowboarding", new Integer(5), new Boolean(false)},
-			    {"John", "Doe",
-			     "Rowing", new Integer(3), new Boolean(true)},
-			    {"Sue", "Black",
-			     "Knitting", new Integer(2), new Boolean(false)},
-			    {"Jane", "White",
-			     "Speed reading", new Integer(20), new Boolean(true)},
-			    {"Joe", "Brown",
-			     "Pool", new Integer(10), new Boolean(false)}
-			};
+		Object[][] data = (new AppointmentRetrivalService(db)).getAppointments("draked");
 		
 		table = new JTable(data, columnNames);
+		
+		table.setMinimumSize(new Dimension(WIDTH, HEIGHT));
 		
 		JScrollPane scrollPane = new JScrollPane(table);
 		table.setFillsViewportHeight(true);

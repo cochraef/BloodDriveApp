@@ -23,6 +23,7 @@ public class AppointmentRetrivalService {
 			return parseResults(rs);
 
 		} catch (SQLException e) {
+			System.out.println("Something went wrong whilst getting appointments.");
 			e.printStackTrace();
 		}
 		
@@ -53,9 +54,15 @@ public class AppointmentRetrivalService {
 				jank.add(row);
 			}
 			
-			return (Object[][]) jank.toArray();
+			Object[][] doublejank = new Object[jank.size()][7];
+			for(int i = 0; i < jank.size(); i++) {
+				doublejank[i] = jank.get(i);
+			}
+			
+			return doublejank;
 			
 		} catch (SQLException e) {
+			System.out.println("Something went wrong whilst converting appointment to an array.");
 			e.printStackTrace();
 		}
 		
