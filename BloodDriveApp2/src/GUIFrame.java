@@ -1,4 +1,8 @@
 import java.awt.Dimension;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -12,10 +16,11 @@ public class GUIFrame extends JFrame {
 	private static final int WIDTH = 1000;
 	private static final int HEIGHT = 1000;
 	
-	public JTable table;
+	public JScrollPane pane;
 	public JTextField textbox;
 	
-	public DatabaseConnectionService db = null;
+	public DatabaseConnectionService db;
+	public AppointmentRetrivalService ar;
 	
 	public GUIFrame(DatabaseConnectionService db) {
 		setMinimumSize(new Dimension(WIDTH, HEIGHT));
@@ -27,8 +32,10 @@ public class GUIFrame extends JFrame {
 		}
 		
 		this.db = db;
+		this.ar = new AppointmentRetrivalService(db);
 		
 		JPanel panel1 = new JPanel(), panel2 = new JPanel(), panel3 = new JPanel();
+		
 		CreateAppointmentSearcher(panel1);
 		
 		
@@ -49,23 +56,41 @@ public class GUIFrame extends JFrame {
 	private void CreateAppointmentSearcher(JPanel panel) {
 		panel.setMinimumSize(new Dimension(WIDTH, HEIGHT));
 		
-		String[] columnNames = {"Appointment Date",
-				"Appointment Time",
-				"Street Line 1",
-				"Street Line 2",
-				"City",
-				"State",
-				"Zip Code"};
+		JTextField usernameInput = new JTextField();
+		usernameInput.setPreferredSize(new Dimension(250, 20));
 		
-		Object[][] data = (new AppointmentRetrivalService(db)).getAppointments("draked");
+		JButton searchButton = new JButton("Search for appointments");
 		
-		table = new JTable(data, columnNames);
+		searchButton.addActionListener(new ActionListener() {
+				
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					
+					if(pane != null) {
+						panel.remove(pane);
+						pane = null;
+					}
+					
+					String[] columnNames = {"Appointment Date", "Appointment Time", "Street Line 1", "Street Line 2", "City", "State", "Zip Code"};
+					
+					Object[][] data = ar.getAppointments(usernameInput.getText());
+					
+					JTable table = new JTable(data, columnNames);
+					
+					pane = new JScrollPane(table);
+					table.setFillsViewportHeight(true);
+					pane.setPreferredSize(new Dimension(800, 800));
+					
+					panel.add(pane);
+					
+					panel.updateUI();
+				}
+				
+			});
 		
-		JScrollPane scrollPane = new JScrollPane(table);
-		table.setFillsViewportHeight(true);
-		scrollPane.setPreferredSize(new Dimension(800, 800));
+		panel.add(searchButton);
+		panel.add(usernameInput);
 		
-		panel.add(scrollPane);
 		add(panel);
 		
 //		DefaultTableModel model = new DefaultTableModel();
