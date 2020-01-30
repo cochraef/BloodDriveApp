@@ -61,10 +61,9 @@ public class GUIFrame extends JFrame {
 		
 		table = new JTable(data, columnNames);
 		
-		table.setMinimumSize(new Dimension(WIDTH, HEIGHT));
-		
 		JScrollPane scrollPane = new JScrollPane(table);
 		table.setFillsViewportHeight(true);
+		scrollPane.setPreferredSize(new Dimension(800, 800));
 		
 		panel.add(scrollPane);
 		add(panel);
