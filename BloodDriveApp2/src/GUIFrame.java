@@ -22,11 +22,12 @@ public class GUIFrame extends JFrame {
 	public JTextField textbox;
 	
 	public GUIFrame(DatabaseConnectionService db) {
-		this.setMinimumSize(new Dimension(WIDTH, HEIGHT));
+		setMinimumSize(new Dimension(WIDTH, HEIGHT));
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		if(db.getConnection() == null) {
-			 JOptionPane.showMessageDialog(null, "Failed to connect to the database!");
+			 JOptionPane.showMessageDialog(this, "Failed to connect to the database!");
+			 return;
 		}
 		
 		JPanel panel1 = new JPanel(), panel2 = new JPanel(), panel3 = new JPanel();
