@@ -17,9 +17,11 @@ public class GUIFrame extends JFrame {
 	private static final int WIDTH = 1000;
 	private static final int HEIGHT = 1000;
 	
-	public JScrollPane pane;
-	public JTextField textbox;
-	
+	public JTabbedPane tabbedpane;
+	public GUIPanel panel1;
+	public GUIPanel panel2;
+	public GUIPanel panel3;
+		
 	public DatabaseConnectionService db;
 	public AppointmentRetrivalService ar;
 	
@@ -35,83 +37,24 @@ public class GUIFrame extends JFrame {
 		this.db = db;
 		this.ar = new AppointmentRetrivalService(db);
 		
-		JPanel panel1 = new JPanel(), panel2 = new JPanel(), panel3 = new JPanel();
+		panel1 = new GUIPanel();
+		panel2 = new GUIPanel();
+		panel3 = new GUIPanel();
 		
-		CreateAppointmentSearcher(panel1);
-		
-		
-		panel2.setMinimumSize(new Dimension(WIDTH/2, HEIGHT/2));
-		panel3.setMinimumSize(new Dimension(WIDTH/2, HEIGHT/2));
+		panel1.CreateAppointmentSearcher(ar);
 		CreateJTabFrame(panel1, panel2, panel3);
+		
 		setVisible(true);
 	}
 	
 	private void CreateJTabFrame(JPanel panel1, JPanel panel2, JPanel panel3) {
-		JTabbedPane pane = new JTabbedPane();
-		pane.addTab("Search For Appointments", panel1);
-		pane.addTab("Schedule Appointments", panel2);
-		pane.addTab("Delete Appointments", panel3);
-		add(pane);
+		tabbedpane = new JTabbedPane();
+		tabbedpane.addTab("Search For Appointments", panel1);
+		tabbedpane.addTab("Schedule Appointments", panel2);
+		tabbedpane.addTab("Delete Appointments", panel3);
+		add(tabbedpane);
 	}
 	
-	private void CreateAppointmentSearcher(JPanel panel) {
-		panel.setMinimumSize(new Dimension(WIDTH, HEIGHT));
-		
-		JTextField usernameInput = new JTextField();
-		usernameInput.setPreferredSize(new Dimension(250, 20));
-		
-		JButton searchButton = new JButton("Search for appointments");
-		
-		JCheckBox donorBox = new JCheckBox("Donor?");
-		
-		searchButton.addActionListener(new ActionListener() {
-				
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					
-					if(pane != null) {
-						panel.remove(pane);
-						pane = null;
-					}
-					
-					String[] columnNames = {"Appointment Date", "Appointment Time", "Street Line 1", "Street Line 2", "City", "State", "Zip Code"};
-					
-					Object[][] data = ar.getAppointments(usernameInput.getText(), donorBox.isSelected());
-					
-					JTable table = new JTable(data, columnNames);
-					
-					pane = new JScrollPane(table);
-					table.setFillsViewportHeight(true);
-					pane.setPreferredSize(new Dimension(800, 800));
-					
-					panel.add(pane);
-					
-					panel.updateUI();
-				}
-				
-			});
-		
-		panel.add(searchButton);
-		panel.add(donorBox);
-		panel.add(usernameInput);
-		
-		add(panel);
-		
-//		DefaultTableModel model = new DefaultTableModel();
-////		model.addColumn(columnNames);
-//		table = new JTable();
-//		table.setModel(model); 
-//		table.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
-//		table.setFillsViewportHeight(true);
-//		JScrollPane scroll = new JScrollPane(table);
-//		scroll.setHorizontalScrollBarPolicy(
-//		JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-//		scroll.setVerticalScrollBarPolicy(
-//		JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED); 
-//		table.addColumn(columnNames);
-//		panel.add(table);
-//		add(panel);
 
-	}
 
 }
