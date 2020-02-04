@@ -49,9 +49,9 @@ public class GUIFrame extends JFrame {
 	
 	private void CreateJTabFrame(JPanel panel1, JPanel panel2, JPanel panel3) {
 		tabbedpane = new JTabbedPane();
-		tabbedpane.addTab("Search For Appointments", panel1);
+		tabbedpane.addTab("Cancel Appointments", panel1);
 		tabbedpane.addTab("Schedule Appointments", panel2);
-		tabbedpane.addTab("Delete Appointments", panel3);
+		tabbedpane.addTab("Schedule Employees", panel3);
 		add(tabbedpane);
 	}
 	

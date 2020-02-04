@@ -4,6 +4,7 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -15,6 +16,7 @@ public class GUIPanel extends JPanel {
 	private static final int WIDTH = 800;
 	private static final int HEIGHT = 800;
 	
+	public JTable table;
 	public JScrollPane pane;
 	
 	public GUIPanel() {
@@ -36,14 +38,13 @@ public class GUIPanel extends JPanel {
 					
 					if(pane != null) {
 						remove(pane);
-						pane = null;
 					}
 					
 					String[] columnNames = {"Appointment Date", "Appointment Time", "Street Line 1", "Street Line 2", "City", "State", "Zip Code"};
 					
 					Object[][] data = ar.getAppointments(usernameInput.getText(), donorBox.isSelected());
 					
-					JTable table = new JTable(data, columnNames);
+					table = new JTable(data, columnNames);
 					
 					pane = new JScrollPane(table);
 					table.setFillsViewportHeight(true);
@@ -55,10 +56,36 @@ public class GUIPanel extends JPanel {
 				}
 				
 			});
+				
+		JButton deleteButton = new JButton("Cancel Scheduled Appointment");
+		
+		deleteButton.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				
+				int currentRow = table.getSelectedRow();
+				
+				if(currentRow == -1) {
+					 JOptionPane.showMessageDialog(null, "Please select an appointment.");
+					 return;
+				}
+				
+				String date = (String) table.getModel().getValueAt(currentRow, 0);
+				String time = (String) table.getModel().getValueAt(currentRow, 1);
+				
+				System.out.println(date);
+				System.out.println(time);
+			}
+			
+		});
 		
 		add(searchButton);
 		add(donorBox);
 		add(usernameInput);
+		add(deleteButton);
+		
+		searchButton.doClick();
 	}
 	
 }
