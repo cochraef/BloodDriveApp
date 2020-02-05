@@ -5,6 +5,8 @@ import java.sql.SQLException;
 
 import javax.swing.JOptionPane;
 
+import com.microsoft.sqlserver.jdbc.SQLServerException;
+
 public class UserService {
 	private DatabaseConnectionService dbService = null;
 
@@ -19,11 +21,7 @@ public class UserService {
 	public boolean login(String username, String password) {
 		CallableStatement cs = null;
 		try {
-			cs = this.dbService.getConnection().prepareCall("SELECT perpassword FROM [Person] WHERE ( username = ?)");
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		try {
+			cs = this.dbService.getConnection().prepareCall("SELECT perpassword FROM [Person] WHERE (username = ?)");
 			cs.setString(1, username);
 			ResultSet rs = cs.executeQuery();
 			rs.next();
@@ -32,7 +30,10 @@ public class UserService {
 			} else {
 				return false;
 			}
-		} catch (SQLException e) {
+		} catch (Exception e) {
+			if(e.getMessage().equals("The result set has no current row.")) {
+				return false;
+			}
 			e.printStackTrace();
 		}
 		return false;
