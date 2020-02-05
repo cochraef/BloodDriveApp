@@ -49,7 +49,7 @@ public class GUIFrame extends JFrame {
 		panel3 = new GUIPanel(username);
 		
 		panel1.CreateAppointmentSearcher(ar);
-		panel1.CreateAppointmentRemover(ac);
+		panel1.CreateAppointmentRemover(ac, ar);
 		CreateJTabFrame(panel1, panel2, panel3);
 		
 		setVisible(true);

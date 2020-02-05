@@ -3,14 +3,11 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
-import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import javax.swing.JTextField;
-import javax.swing.table.DefaultTableModel;
 
 @SuppressWarnings("serial")
 public class GUIPanel extends JPanel {
@@ -24,6 +21,8 @@ public class GUIPanel extends JPanel {
 	public JTable etable;
 	public JScrollPane epane;
 	
+	public JButton deleteButton;
+	
 	public String username;
 	
 	public GUIPanel(String user) {
@@ -33,6 +32,14 @@ public class GUIPanel extends JPanel {
 	
 	public void CreateAppointmentSearcher(AppointmentRetrivalService ar) {
 		
+		if(dpane != null) {
+			removeAll();
+			dtable = null;
+			dpane = null;
+			etable = null;
+			epane = null;
+		}
+				
 		String[] columnNames = {"Appointment Date", "Appointment Time", "Street Line 1", "Street Line 2", "City", "State", "Zip Code"};
 		
 		Object[][] ddata = ar.getAppointments(username, true);
@@ -53,10 +60,17 @@ public class GUIPanel extends JPanel {
 		add(dpane);
 		add(new JLabel("Upcoming Employee Appointments"));
 		add(epane);
+		
+		if(deleteButton != null) {
+			add(deleteButton);
+		}
+		
+		updateUI();
+		
 	}
 
-	public void CreateAppointmentRemover(AppointmentCancelationService ac) {
-		JButton deleteButton = new JButton("Cancel Scheduled Appointmets");
+	public void CreateAppointmentRemover(AppointmentCancelationService ac, AppointmentRetrivalService ar) {
+		deleteButton = new JButton("Cancel Scheduled Appointmets");
 		
 		deleteButton.addActionListener(new ActionListener() {
 			
@@ -79,11 +93,13 @@ public class GUIPanel extends JPanel {
 				}
 				
 				for(int row : ecurrentRows) {
-					String date = (String) dtable.getModel().getValueAt(row, 0);
-					String time = (String) dtable.getModel().getValueAt(row, 1);
+					String date = (String) etable.getModel().getValueAt(row, 0);
+					String time = (String) etable.getModel().getValueAt(row, 1);
 					
 					ac.removeAppointment(username, date, time);
 				}
+				
+				CreateAppointmentSearcher(ar);
 			}
 			
 		});
