@@ -24,12 +24,14 @@ public class GUIFrame extends JFrame {
 		
 	public DatabaseConnectionService db;
 	public AppointmentRetrivalService ar;
+	public AppointmentCancelationService ac;
 	
 	public String username;
 	
 	public GUIFrame(DatabaseConnectionService db, String user) {
 		setMinimumSize(new Dimension(WIDTH, HEIGHT));
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setResizable(false);
 		
 		if(db.getConnection() == null) {
 			 JOptionPane.showMessageDialog(this, "Failed to connect to the database!");
@@ -38,14 +40,16 @@ public class GUIFrame extends JFrame {
 		
 		this.db = db;
 		this.ar = new AppointmentRetrivalService(db);
+		this.ac = new AppointmentCancelationService(db);
 		
 		username = user;
 		
-		panel1 = new GUIPanel();
-		panel2 = new GUIPanel();
-		panel3 = new GUIPanel();
+		panel1 = new GUIPanel(username);
+		panel2 = new GUIPanel(username);
+		panel3 = new GUIPanel(username);
 		
-		panel1.CreateAppointmentSearcher(ar, user);
+		panel1.CreateAppointmentSearcher(ar);
+		panel1.CreateAppointmentRemover(ac);
 		CreateJTabFrame(panel1, panel2, panel3);
 		
 		setVisible(true);

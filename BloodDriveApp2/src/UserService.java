@@ -8,7 +8,7 @@ import javax.swing.JOptionPane;
 import com.microsoft.sqlserver.jdbc.SQLServerException;
 
 public class UserService {
-	private DatabaseConnectionService dbService = null;
+	private DatabaseConnectionService dbService;
 
 	public UserService(DatabaseConnectionService dbService) {
 		this.dbService = dbService;

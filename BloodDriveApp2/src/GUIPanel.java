@@ -4,11 +4,13 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.table.DefaultTableModel;
 
 @SuppressWarnings("serial")
 public class GUIPanel extends JPanel {
@@ -16,74 +18,78 @@ public class GUIPanel extends JPanel {
 	private static final int WIDTH = 800;
 	private static final int HEIGHT = 800;
 	
-	public JTable table;
-	public JScrollPane pane;
+	public JTable dtable;
+	public JScrollPane dpane;
 	
-	public GUIPanel() {
+	public JTable etable;
+	public JScrollPane epane;
+	
+	public String username;
+	
+	public GUIPanel(String user) {
+		username = user;
 		setMinimumSize(new Dimension(WIDTH, HEIGHT));
 	}
 	
-	public void CreateAppointmentSearcher(AppointmentRetrivalService ar, String username) {
+	public void CreateAppointmentSearcher(AppointmentRetrivalService ar) {
 		
-		JButton searchButton = new JButton("Search for appointments");		
-		JCheckBox donorBox = new JCheckBox("Donor?");
+		String[] columnNames = {"Appointment Date", "Appointment Time", "Street Line 1", "Street Line 2", "City", "State", "Zip Code"};
 		
-		searchButton.addActionListener(new ActionListener() {
-				
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					
-					if(pane != null) {
-						remove(pane);
-					}
-					
-					String[] columnNames = {"Appointment Date", "Appointment Time", "Street Line 1", "Street Line 2", "City", "State", "Zip Code"};
-					
-					Object[][] data = ar.getAppointments(username, donorBox.isSelected());
-					
-					System.out.println(username);
-					
-					table = new JTable(data, columnNames);
-					
-					pane = new JScrollPane(table);
-					table.setFillsViewportHeight(true);
-					pane.setPreferredSize(new Dimension(800, 800));
-					
-					add(pane);
-					
-					updateUI();
-				}
-				
-			});
-				
-		JButton deleteButton = new JButton("Cancel Scheduled Appointment");
+		Object[][] ddata = ar.getAppointments(username, true);
+		
+		Object[][] edata = ar.getAppointments(username, false);
+		
+		dtable = new JTable(ddata, columnNames);
+		dpane = new JScrollPane(dtable);
+		dtable.setFillsViewportHeight(true);
+		dpane.setPreferredSize(new Dimension(800, 400));
+		
+		etable = new JTable(edata, columnNames);
+		epane = new JScrollPane(etable);
+		etable.setFillsViewportHeight(true);
+		epane.setPreferredSize(new Dimension(800, 400));
+		
+		add(new JLabel("Upcoming Donor Appointments"));
+		add(dpane);
+		add(new JLabel("Upcoming Employee Appointments"));
+		add(epane);
+	}
+
+	public void CreateAppointmentRemover(AppointmentCancelationService ac) {
+		JButton deleteButton = new JButton("Cancel Scheduled Appointmets");
 		
 		deleteButton.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				
-				int currentRow = table.getSelectedRow();
+				int[] dcurrentRows = dtable.getSelectedRows();
+				int[] ecurrentRows = etable.getSelectedRows();
 				
-				if(currentRow == -1) {
-					 JOptionPane.showMessageDialog(null, "Please select an appointment.");
+				if(dcurrentRows.length == 0 && ecurrentRows.length == 0) {
+					 JOptionPane.showMessageDialog(null, "Please select at least one appointment.");
 					 return;
 				}
 				
-				String date = (String) table.getModel().getValueAt(currentRow, 0);
-				String time = (String) table.getModel().getValueAt(currentRow, 1);
+				for(int row : dcurrentRows) {
+					String date = (String) dtable.getModel().getValueAt(row, 0);
+					String time = (String) dtable.getModel().getValueAt(row, 1);
+					
+					ac.removeAppointment(username, date, time);
+				}
 				
-				System.out.println(date);
-				System.out.println(time);
+				for(int row : ecurrentRows) {
+					String date = (String) dtable.getModel().getValueAt(row, 0);
+					String time = (String) dtable.getModel().getValueAt(row, 1);
+					
+					ac.removeAppointment(username, date, time);
+				}
 			}
 			
 		});
 		
-		add(searchButton);
-		add(donorBox);
 		add(deleteButton);
 		
-		searchButton.doClick();
 	}
 	
 }

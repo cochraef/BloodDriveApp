@@ -19,6 +19,7 @@ public class LoginFrame extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setLocation(600, 400);
 		setMinimumSize(new Dimension(420, 150));
+		setResizable(false);
 		
 		us = new UserService(db);
 		
