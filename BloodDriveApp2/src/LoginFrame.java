@@ -61,6 +61,7 @@ public class LoginFrame extends JFrame {
 				
 				if(us.login(username.getText(), password.getText())) {
 					new GUIFrame(db, username.getText());
+					setVisible(false);
 				} else {
 					JOptionPane.showMessageDialog(null, "Incorrect Username or Password.");
 				}

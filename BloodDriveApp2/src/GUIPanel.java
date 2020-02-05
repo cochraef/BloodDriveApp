@@ -23,12 +23,9 @@ public class GUIPanel extends JPanel {
 		setMinimumSize(new Dimension(WIDTH, HEIGHT));
 	}
 	
-	public void CreateAppointmentSearcher(AppointmentRetrivalService ar) {
-		JTextField usernameInput = new JTextField();
-		usernameInput.setPreferredSize(new Dimension(250, 20));
+	public void CreateAppointmentSearcher(AppointmentRetrivalService ar, String username) {
 		
-		JButton searchButton = new JButton("Search for appointments");
-		
+		JButton searchButton = new JButton("Search for appointments");		
 		JCheckBox donorBox = new JCheckBox("Donor?");
 		
 		searchButton.addActionListener(new ActionListener() {
@@ -42,7 +39,9 @@ public class GUIPanel extends JPanel {
 					
 					String[] columnNames = {"Appointment Date", "Appointment Time", "Street Line 1", "Street Line 2", "City", "State", "Zip Code"};
 					
-					Object[][] data = ar.getAppointments(usernameInput.getText(), donorBox.isSelected());
+					Object[][] data = ar.getAppointments(username, donorBox.isSelected());
+					
+					System.out.println(username);
 					
 					table = new JTable(data, columnNames);
 					
@@ -82,7 +81,6 @@ public class GUIPanel extends JPanel {
 		
 		add(searchButton);
 		add(donorBox);
-		add(usernameInput);
 		add(deleteButton);
 		
 		searchButton.doClick();

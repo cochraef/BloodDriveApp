@@ -39,13 +39,13 @@ public class GUIFrame extends JFrame {
 		this.db = db;
 		this.ar = new AppointmentRetrivalService(db);
 		
-		user = username;
+		username = user;
 		
 		panel1 = new GUIPanel();
 		panel2 = new GUIPanel();
 		panel3 = new GUIPanel();
 		
-		panel1.CreateAppointmentSearcher(ar);
+		panel1.CreateAppointmentSearcher(ar, user);
 		CreateJTabFrame(panel1, panel2, panel3);
 		
 		setVisible(true);
