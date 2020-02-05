@@ -8,8 +8,6 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
 import javax.swing.JTextField;
 
 @SuppressWarnings("serial")
@@ -20,7 +18,7 @@ public class LoginFrame extends JFrame {
 	public LoginFrame(DatabaseConnectionService db) {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setLocation(600, 400);
-		setMinimumSize(new Dimension(400, 150));
+		setMinimumSize(new Dimension(420, 150));
 		
 		us = new UserService(db);
 		
@@ -36,17 +34,20 @@ public class LoginFrame extends JFrame {
 		JTextField password = new JTextField();
 		JPanel usernamepanel = new JPanel();
 		JPanel passwordpanel = new JPanel();
+		JPanel buttonpanel = new JPanel();
 		
 		username.setPreferredSize(new Dimension(250, 20));
 		password.setPreferredSize(new Dimension(250, 20));
 		
 		usernamepanel.setPreferredSize(new Dimension(200, 40));
 		passwordpanel.setPreferredSize(new Dimension(200, 40));
+		buttonpanel.setPreferredSize(new Dimension(200, 40));
 		
+		usernamepanel.add(lusername);
 		usernamepanel.add(username);
-		usernamepanel.add(lusername, BorderLayout.WEST);
+		passwordpanel.add(lpassword);
 		passwordpanel.add(password);
-		passwordpanel.add(lpassword, BorderLayout.WEST);
+
 		
 		add(usernamepanel, BorderLayout.NORTH);
 		add(passwordpanel, BorderLayout.CENTER);
@@ -67,13 +68,15 @@ public class LoginFrame extends JFrame {
 			
 		});
 		
-		loginButton.setPreferredSize(new Dimension(50, 30));
+		loginButton.setPreferredSize(new Dimension(100, 30));
 		
 		JButton registerButton = new JButton("Register");
-		registerButton.setPreferredSize(new Dimension(50, 30));
+		registerButton.setPreferredSize(new Dimension(100, 30));
 		
-		add(loginButton, BorderLayout.SOUTH);
-		add(registerButton, BorderLayout.SOUTH);
+		buttonpanel.add(loginButton);
+		buttonpanel.add(registerButton);
+		
+		add(buttonpanel, BorderLayout.SOUTH);
 		
 	}
 }
