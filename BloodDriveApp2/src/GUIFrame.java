@@ -25,7 +25,9 @@ public class GUIFrame extends JFrame {
 	public DatabaseConnectionService db;
 	public AppointmentRetrivalService ar;
 	
-	public GUIFrame(DatabaseConnectionService db) {
+	public String username;
+	
+	public GUIFrame(DatabaseConnectionService db, String user) {
 		setMinimumSize(new Dimension(WIDTH, HEIGHT));
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
@@ -36,6 +38,8 @@ public class GUIFrame extends JFrame {
 		
 		this.db = db;
 		this.ar = new AppointmentRetrivalService(db);
+		
+		user = username;
 		
 		panel1 = new GUIPanel();
 		panel2 = new GUIPanel();
