@@ -75,6 +75,21 @@ public class LoginFrame extends JFrame {
 		JButton registerButton = new JButton("Register");
 		registerButton.setPreferredSize(new Dimension(100, 30));
 		
+		registerButton.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				
+				if(us.register(username.getText(), password.getText())) {
+					new GUIFrame(db, username.getText());
+					setVisible(false);
+				} else {
+					return;
+				}
+			}
+			
+		});
+		
 		buttonpanel.add(loginButton);
 		buttonpanel.add(registerButton);
 		
