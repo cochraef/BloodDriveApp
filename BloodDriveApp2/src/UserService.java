@@ -44,7 +44,7 @@ public class UserService {
 			return false;
 		}
 		try {
-			cs = this.dbService.getConnection().prepareCall("{ ? = call Register([" + username + "], [" + password + "]}");
+			cs = this.dbService.getConnection().prepareCall("{ ? = call Register([" + username + "], [" + password + "])}");
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

@@ -73,7 +73,6 @@ public class LoginFrame extends JFrame {
 		loginButton.setPreferredSize(new Dimension(100, 30));
 		
 		JButton registerButton = new JButton("Register");
-		registerButton.setPreferredSize(new Dimension(100, 30));
 		
 		registerButton.addActionListener(new ActionListener() {
 			
@@ -89,6 +88,8 @@ public class LoginFrame extends JFrame {
 			}
 			
 		});
+		
+		registerButton.setPreferredSize(new Dimension(100, 30));
 		
 		buttonpanel.add(loginButton);
 		buttonpanel.add(registerButton);
