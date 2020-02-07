@@ -65,4 +65,28 @@ public class DriveRetrivalService {
 		return null;
 	}
 
+	public ArrayList<Integer> getIds() {
+		try {
+			String query = "SELECT l.ID " + 
+						   "FROM BloodDriveEvent JOIN Location l ON LocationID = l.ID";
+			PreparedStatement stmt = dbService.getConnection().prepareStatement(query);
+			ResultSet rs = stmt.executeQuery();
+			
+			int index = rs.findColumn("ID");
+			
+			ArrayList<Integer> result = new ArrayList<Integer>();
+			while(rs.next()) {
+				result.add(rs.getInt(index));
+			}
+			
+			return result;
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return null;
+		
+	}
+
 }

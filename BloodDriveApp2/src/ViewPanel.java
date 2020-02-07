@@ -70,7 +70,7 @@ public class ViewPanel extends JPanel {
 	}
 
 	public void CreateAppointmentRemover(AppointmentCancelationService ac, AppointmentRetrivalService ar) {
-		deleteButton = new JButton("Cancel Scheduled Appointmets");
+		deleteButton = new JButton("Cancel Scheduled Appointments");
 		
 		deleteButton.addActionListener(new ActionListener() {
 			

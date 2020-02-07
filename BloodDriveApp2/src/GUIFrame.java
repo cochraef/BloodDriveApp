@@ -28,6 +28,7 @@ public class GUIFrame extends JFrame {
 	public AppointmentCancelationService ac;
 	
 	public DriveRetrivalService dr;
+	public AppointmentSchedulerService as;
 	
 	public String username;
 	
@@ -47,6 +48,7 @@ public class GUIFrame extends JFrame {
 		this.ac = new AppointmentCancelationService(db);
 		
 		this.dr = new DriveRetrivalService(db);
+		this.as = new AppointmentSchedulerService(db);
 		
 		username = user;
 		
@@ -58,7 +60,7 @@ public class GUIFrame extends JFrame {
 		panel1.CreateAppointmentRemover(ac, ar);
 		
 		panel2.CreateDriveViewer(dr);
-		panel2.CreateAppointmentScheduler();
+		panel2.CreateAppointmentScheduler(as, panel1, ar);
 		
 		CreateJTabFrame(panel1, panel2, panel3);
 		setVisible(true);
