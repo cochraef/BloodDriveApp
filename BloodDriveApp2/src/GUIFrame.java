@@ -18,13 +18,16 @@ public class GUIFrame extends JFrame {
 	private static final int HEIGHT = 1000;
 	
 	public JTabbedPane tabbedpane;
-	public GUIPanel panel1;
-	public GUIPanel panel2;
-	public GUIPanel panel3;
+	public ViewPanel panel1;
+	public SchedulePanel panel2;
+	public SchedulePanel panel3;
 		
 	public DatabaseConnectionService db;
+	
 	public AppointmentRetrivalService ar;
 	public AppointmentCancelationService ac;
+	
+	public DriveRetrivalService dr;
 	
 	public String username;
 	
@@ -39,25 +42,31 @@ public class GUIFrame extends JFrame {
 		}
 		
 		this.db = db;
+		
 		this.ar = new AppointmentRetrivalService(db);
 		this.ac = new AppointmentCancelationService(db);
 		
+		this.dr = new DriveRetrivalService(db);
+		
 		username = user;
 		
-		panel1 = new GUIPanel(username);
-		panel2 = new GUIPanel(username);
-		panel3 = new GUIPanel(username);
+		panel1 = new ViewPanel(username);
+		panel2 = new SchedulePanel(username);
+		panel3 = new SchedulePanel(username);
 		
-		panel1.CreateAppointmentSearcher(ar);
+		panel1.CreateAppointmentViewer(ar);
 		panel1.CreateAppointmentRemover(ac, ar);
-		CreateJTabFrame(panel1, panel2, panel3);
 		
+		panel2.CreateDriveViewer(dr);
+		panel2.CreateAppointmentScheduler();
+		
+		CreateJTabFrame(panel1, panel2, panel3);
 		setVisible(true);
 	}
 	
 	private void CreateJTabFrame(JPanel panel1, JPanel panel2, JPanel panel3) {
 		tabbedpane = new JTabbedPane();
-		tabbedpane.addTab("Cancel Appointments", panel1);
+		tabbedpane.addTab("View and Cancel Appointments", panel1);
 		tabbedpane.addTab("Schedule Appointments", panel2);
 		tabbedpane.addTab("Schedule Employees", panel3);
 		add(tabbedpane);

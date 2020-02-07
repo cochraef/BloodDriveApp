@@ -2,14 +2,11 @@
 import java.sql.CallableStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Types;
 
 import javax.swing.JOptionPane;
 
-import com.microsoft.sqlserver.jdbc.SQLServerException;
-
 public class UserService {
-	private DatabaseConnectionService dbService;
+	private DatabaseConnectionService dbService = null;
 
 	public UserService(DatabaseConnectionService dbService) {
 		this.dbService = dbService;

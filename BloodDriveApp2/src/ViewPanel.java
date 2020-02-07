@@ -10,7 +10,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
 @SuppressWarnings("serial")
-public class GUIPanel extends JPanel {
+public class ViewPanel extends JPanel {
 	
 	private static final int WIDTH = 800;
 	private static final int HEIGHT = 800;
@@ -25,12 +25,12 @@ public class GUIPanel extends JPanel {
 	
 	public String username;
 	
-	public GUIPanel(String user) {
+	public ViewPanel(String user) {
 		username = user;
 		setMinimumSize(new Dimension(WIDTH, HEIGHT));
 	}
 	
-	public void CreateAppointmentSearcher(AppointmentRetrivalService ar) {
+	public void CreateAppointmentViewer(AppointmentRetrivalService ar) {
 		
 		if(dpane != null) {
 			removeAll();
@@ -99,7 +99,7 @@ public class GUIPanel extends JPanel {
 					ac.removeAppointment(username, date, time);
 				}
 				
-				CreateAppointmentSearcher(ar);
+				CreateAppointmentViewer(ar);
 			}
 			
 		});
