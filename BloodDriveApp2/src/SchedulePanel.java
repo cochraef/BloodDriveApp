@@ -1,10 +1,10 @@
-import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -35,7 +35,6 @@ public class SchedulePanel extends JPanel {
 		Object[][] data = dr.getDrives();
 		
 		locationIds = dr.getIds();
-		System.out.println(locationIds);
 		
 		table = new JTable(data, columnNames);
 		pane = new JScrollPane(table);
@@ -48,12 +47,21 @@ public class SchedulePanel extends JPanel {
 	
 	
 	
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public void CreateAppointmentScheduler(AppointmentSchedulerService as, ViewPanel panel1, AppointmentRetrivalService ar) {
 		
 		JButton scheduleButton = new JButton("Schedule Appointment");
 		
-		JTextField timeField = new JTextField();
-		timeField.setPreferredSize(new Dimension(200, 25));
+		String[] times = { 
+				"1:00 AM", "2:00 AM", "3:00 AM", "4:00 AM", "5:00 AM",
+				"7:00 AM", "8:00 AM", "9:00 AM", "10:00 AM", "11:00 AM",
+				"12:00 AM", "1:00 PM", "2:00 PM", "3:00 PM", "4:00 PM", "5:00 PM",
+				"7:00 PM", "8:00 PM", "9:00 PM", "10:00 PM", "11:00 PM", "12:00 PM"
+		};
+		
+		JComboBox timeField = new JComboBox(times);
+		
+		timeField.setPreferredSize(new Dimension(200, 40));
 		
 		
 		scheduleButton.addActionListener(new ActionListener() {
@@ -68,11 +76,17 @@ public class SchedulePanel extends JPanel {
 					 return;
 				}
 				
-				String time = timeField.getText();
+				String time = (String) timeField.getSelectedItem();
 				String date = (String) table.getModel().getValueAt(currentRows[0], 5);
+				String startTime = (String) table.getModel().getValueAt(currentRows[0], 6);
+				String endTime = (String) table.getModel().getValueAt(currentRows[0], 7);
 				Integer locationID = locationIds.get(currentRows[0]);
 				
-				as.addAppointment(username, time, date, locationID);
+				if(date == null | date.equals("")) {
+					JOptionPane.showMessageDialog(null, "Please specify a time.");
+				}
+				
+				as.addAppointment(username, time, date, locationID, startTime, endTime);
 				
 				panel1.CreateAppointmentViewer(ar);
 				
@@ -80,7 +94,7 @@ public class SchedulePanel extends JPanel {
 			
 		});
 		
-		add(new JLabel("Type a time"));
+		add(new JLabel("Select a time"));
 		add(timeField);
 		add(scheduleButton);
 		
