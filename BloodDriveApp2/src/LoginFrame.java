@@ -14,6 +14,7 @@ import javax.swing.JTextField;
 public class LoginFrame extends JFrame {
 	
 	private UserService us;
+	private AccessService as;
 	
 	public LoginFrame(DatabaseConnectionService db) {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -22,6 +23,7 @@ public class LoginFrame extends JFrame {
 		setResizable(false);
 		
 		us = new UserService(db);
+		as = new AccessService(db);
 		
 		addFrames(db);
 		
@@ -60,8 +62,12 @@ public class LoginFrame extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				
+				boolean ea = as.getEmployeeAccess(username.getText());
+				boolean ma = as.getManagerAccess(username.getText());
+				
+				
 				if(us.login(username.getText(), password.getText())) {
-					new GUIFrame(db, username.getText(), true, false);
+					new GUIFrame(db, username.getText(), ea, ma);
 					setVisible(false);
 				} else {
 					JOptionPane.showMessageDialog(null, "Incorrect Username or Password.");
@@ -79,8 +85,11 @@ public class LoginFrame extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				
+				boolean ea = as.getEmployeeAccess(username.getText());
+				boolean ma = as.getManagerAccess(username.getText());
+				
 				if(us.register(username.getText(), password.getText())) {
-					new GUIFrame(db, username.getText(), true, false);
+					new GUIFrame(db, username.getText(), ea, ma);
 					setVisible(false);
 				} else {
 					return;
