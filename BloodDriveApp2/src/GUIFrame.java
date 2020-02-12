@@ -32,7 +32,10 @@ public class GUIFrame extends JFrame {
 	
 	public String username;
 	
-	public GUIFrame(DatabaseConnectionService db, String user) {
+	private boolean hasEmployeeAccess;
+	private boolean hasManagerAccess;
+	
+	public GUIFrame(DatabaseConnectionService db, String user, boolean hasEmployeeAccess, boolean hasManagerAccess) {
 		setMinimumSize(new Dimension(WIDTH, HEIGHT));
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setResizable(false);
@@ -52,7 +55,10 @@ public class GUIFrame extends JFrame {
 		
 		username = user;
 		
-		panel1 = new ViewPanel(username);
+		this.hasEmployeeAccess = hasEmployeeAccess;
+		this.hasManagerAccess = hasManagerAccess;
+		
+		panel1 = new ViewPanel(username, hasEmployeeAccess);
 		panel2 = new SchedulePanel(username);
 		panel3 = new SchedulePanel(username);
 		

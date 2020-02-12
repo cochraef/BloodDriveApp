@@ -25,7 +25,10 @@ public class ViewPanel extends JPanel {
 	
 	public String username;
 	
-	public ViewPanel(String user) {
+	private boolean hasEmployeeAccess;
+	
+	public ViewPanel(String user, boolean hasEmployeeAccess) {
+		this.hasEmployeeAccess = hasEmployeeAccess;
 		username = user;
 		setMinimumSize(new Dimension(WIDTH, HEIGHT));
 	}
@@ -58,8 +61,11 @@ public class ViewPanel extends JPanel {
 		
 		add(new JLabel("Upcoming Donor Appointments"));
 		add(dpane);
-		add(new JLabel("Upcoming Employee Appointments"));
-		add(epane);
+		
+		if(hasEmployeeAccess) {
+			add(new JLabel("Upcoming Employee Appointments"));
+			add(epane);
+		}
 		
 		if(deleteButton != null) {
 			add(deleteButton);

@@ -61,7 +61,7 @@ public class SchedulePanel extends JPanel {
 		
 		JComboBox timeField = new JComboBox(times);
 		
-		timeField.setPreferredSize(new Dimension(200, 40));
+		timeField.setPreferredSize(new Dimension(200, 25));
 		
 		
 		scheduleButton.addActionListener(new ActionListener() {

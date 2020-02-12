@@ -61,7 +61,7 @@ public class LoginFrame extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				
 				if(us.login(username.getText(), password.getText())) {
-					new GUIFrame(db, username.getText());
+					new GUIFrame(db, username.getText(), true, false);
 					setVisible(false);
 				} else {
 					JOptionPane.showMessageDialog(null, "Incorrect Username or Password.");
@@ -80,7 +80,7 @@ public class LoginFrame extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				
 				if(us.register(username.getText(), password.getText())) {
-					new GUIFrame(db, username.getText());
+					new GUIFrame(db, username.getText(), true, false);
 					setVisible(false);
 				} else {
 					return;
