@@ -13,7 +13,7 @@ public class AppointmentSchedulerService {
 
 	public boolean addAppointment(String username, String time, String date, Integer locationID, String startTime, String endTime) {
 		try {
-			String query = "{? = call scheduleAppointment([" + username + "], [" + date + "], [" + time + "], [" + locationID + "], [" + startTime + "], [" + endTime + "])}";
+			String query = "{? = call scheduleAppointment([" + username + "], [" + date + "], [" + time + "], [" + locationID + "], [" + startTime + "], [" + endTime + "], 1)}";
 			CallableStatement cs = dbService.getConnection().prepareCall(query);
 			cs.registerOutParameter(1, Types.INTEGER);
 			cs.execute();

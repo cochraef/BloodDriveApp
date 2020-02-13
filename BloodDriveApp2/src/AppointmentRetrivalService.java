@@ -65,4 +65,64 @@ public class AppointmentRetrivalService {
 		
 		return null;
 	}
+	
+	public String[] getDonorUsernames() {
+		try {
+			String query = "SELECT Username FROM Donor";
+			PreparedStatement stmt;
+			stmt = dbService.getConnection().prepareStatement(query);
+			ResultSet rs = stmt.executeQuery();
+			
+			ArrayList<String> usernames = new ArrayList<String>();
+			
+			int index = rs.findColumn("Username");
+			
+			while(rs.next()) {
+				usernames.add(rs.getString(index));
+			}
+			
+			String[] usernames2 = new String[usernames.size()];
+			for(int i = 0; i < usernames.size(); i++) {
+				usernames2[i] = usernames.get(i);
+			}
+			
+			return usernames2;
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return null;
+		
+	}
+	
+	public String[] getEmployeeUsernames() {
+		try {
+			String query = "SELECT Username FROM Employee";
+			PreparedStatement stmt;
+			stmt = dbService.getConnection().prepareStatement(query);
+			ResultSet rs = stmt.executeQuery();
+			
+			ArrayList<String> usernames = new ArrayList<String>();
+			
+			int index = rs.findColumn("Username");
+			
+			while(rs.next()) {
+				usernames.add(rs.getString(index));
+			}
+			
+			String[] usernames2 = new String[usernames.size()];
+			for(int i = 0; i < usernames.size(); i++) {
+				usernames2[i] = usernames.get(i);
+			}
+			
+			return usernames2;
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return null;
+		
+	}
 }

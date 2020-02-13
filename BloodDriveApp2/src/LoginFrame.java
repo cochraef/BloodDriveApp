@@ -65,6 +65,7 @@ public class LoginFrame extends JFrame {
 				boolean ea = as.getEmployeeAccess(username.getText());
 				boolean ma = as.getManagerAccess(username.getText());
 				
+				if(ma) ea = ma;
 				
 				if(us.login(username.getText(), password.getText())) {
 					new GUIFrame(db, username.getText(), ea, ma);

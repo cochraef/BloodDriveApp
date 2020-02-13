@@ -20,7 +20,8 @@ public class GUIFrame extends JFrame {
 	public JTabbedPane tabbedpane;
 	public ViewPanel panel1;
 	public SchedulePanel panel2;
-	public SchedulePanel panel3;
+	public EmployeeSchedulePanel panel3;
+	public DonorViewPanel panel4;
 		
 	public DatabaseConnectionService db;
 	
@@ -29,6 +30,8 @@ public class GUIFrame extends JFrame {
 	
 	public DriveRetrivalService dr;
 	public AppointmentSchedulerService as;
+	
+	public EmployeeSchedulerService es;
 	
 	public String username;
 	
@@ -53,6 +56,8 @@ public class GUIFrame extends JFrame {
 		this.dr = new DriveRetrivalService(db);
 		this.as = new AppointmentSchedulerService(db);
 		
+		this.es = new EmployeeSchedulerService(db);
+		
 		username = user;
 		
 		this.hasEmployeeAccess = hasEmployeeAccess;
@@ -60,7 +65,8 @@ public class GUIFrame extends JFrame {
 		
 		panel1 = new ViewPanel(username, hasEmployeeAccess);
 		panel2 = new SchedulePanel(username);
-		panel3 = new SchedulePanel(username);
+		panel3 = new EmployeeSchedulePanel();
+		panel4 = new DonorViewPanel();
 		
 		panel1.CreateAppointmentViewer(ar);
 		panel1.CreateAppointmentRemover(ac, ar);
@@ -68,16 +74,24 @@ public class GUIFrame extends JFrame {
 		panel2.CreateDriveViewer(dr);
 		panel2.CreateAppointmentScheduler(as, panel1, ar);
 		
-		CreateJTabFrame(panel1, panel2, panel3);
+		panel3.CreateEmployeeFinder(ar, es);
+		panel3.CreateEmployeeScheduler(ar, es);
+		
+		panel4.CreateDonorViewer(ar);
+		
+		CreateJTabFrame(panel1, panel2, panel3, panel4);
 		setVisible(true);
 	}
 	
-	private void CreateJTabFrame(JPanel panel1, JPanel panel2, JPanel panel3) {
+	private void CreateJTabFrame(JPanel panel1, JPanel panel2, JPanel panel3, JPanel panel4) {
 		tabbedpane = new JTabbedPane();
 		tabbedpane.addTab("View and Cancel Appointments", panel1);
 		tabbedpane.addTab("Schedule Appointments", panel2);
 		if(hasManagerAccess) {
 			tabbedpane.addTab("Schedule Employees", panel3);
+		}
+		if(hasEmployeeAccess) {
+			tabbedpane.addTab("View Donor Appointments", panel4);
 		}
 		add(tabbedpane);
 	}
