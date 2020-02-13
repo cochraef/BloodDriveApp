@@ -76,7 +76,9 @@ public class GUIFrame extends JFrame {
 		tabbedpane = new JTabbedPane();
 		tabbedpane.addTab("View and Cancel Appointments", panel1);
 		tabbedpane.addTab("Schedule Appointments", panel2);
-		tabbedpane.addTab("Schedule Employees", panel3);
+		if(hasManagerAccess) {
+			tabbedpane.addTab("Schedule Employees", panel3);
+		}
 		add(tabbedpane);
 	}
 	
