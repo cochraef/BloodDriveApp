@@ -68,7 +68,7 @@ public class AppointmentRetrivalService {
 	
 	public String[] getDonorUsernames() {
 		try {
-			String query = "SELECT Username FROM Donor";
+			String query = "SELECT Username FROM Person";
 			PreparedStatement stmt;
 			stmt = dbService.getConnection().prepareStatement(query);
 			ResultSet rs = stmt.executeQuery();

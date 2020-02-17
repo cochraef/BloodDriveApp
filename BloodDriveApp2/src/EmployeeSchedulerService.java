@@ -1,8 +1,6 @@
-import java.sql.CallableStatement;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Types;
 import java.util.ArrayList;
 
 import javax.swing.JOptionPane;
@@ -69,10 +67,9 @@ public class EmployeeSchedulerService {
 
 	public boolean scheduleAppointment(String eusername, String dusername, String date, String time) {
 		try {
-			String query0 = "SELECT a.LocationID, StartTime, EndTime " + 
-					"FROM BloodDriveEvent b " + 
-					"JOIN Appointment a ON a.LocationID = b.LocationID " + 
-					"JOIN GoesTo ON AppointmentID = a.ID " + 
+			String query0 = "SELECT ID " + 
+					"FROM Appointment " + 
+					"JOIN GoesTo ON ID = AppointmentID " + 
 					"WHERE PersonUsername = ? AND ApptTime = ? AND ApptDate = ?";
 			PreparedStatement stmt = dbService.getConnection().prepareStatement(query0);
 			stmt.setString(1, dusername);
@@ -84,25 +81,16 @@ public class EmployeeSchedulerService {
 				return false;
 			}
 			
-			String locationID = rs.getString("LocationID");
-			String startTime = rs.getString("StartTime");
-			String endTime = rs.getString("EndTime");
+			String appointmentID = rs.getString("ID");
 			
-			String query = "{? = call scheduleAppointment([" + eusername + "], [" + date + "], [" + time + "], [" + locationID + "], [" + startTime + "], [" + endTime + "], 0)}";
-			CallableStatement cs = dbService.getConnection().prepareCall(query);
-			cs.registerOutParameter(1, Types.INTEGER);
-			cs.execute();
-			int errorCode = cs.getInt(1);
+			String query = "INSERT INTO GoesTo(PersonUsername, AppointmentID, isDonor)" +
+					"VALUES(?, ?, 0)";
+			PreparedStatement stmt1 = dbService.getConnection().prepareStatement(query);
+			stmt1.setString(1, eusername);
+			stmt1.setString(2, appointmentID);
+			stmt1.execute();
 			
-			if(errorCode == 1) {
-				JOptionPane.showMessageDialog(null, "Employee already has an appointment scheduled for that time");
-				return false;
-			}
-			
-			if(errorCode == 2) {
-				JOptionPane.showMessageDialog(null, "Drive is not scheduled for this time"); // Should be impossible in this case
-				return false;
-			}
+
 
 		} catch (SQLException e) {
 			e.printStackTrace();
