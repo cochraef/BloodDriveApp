@@ -78,32 +78,32 @@ public class RegInfoFrame extends JFrame {
 		buttonpanel.setPreferredSize(new Dimension(200, 40));
 		JButton registerButton = new JButton("Register");
 		
-		registerButton.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				
-				if(fNameLabel.getText() != null && lNameLabel.getText() != null && 
-						birthdateLabel.getText() != null && addressLabel.getText() != null && 
-						phoneLabel.getText() != null) {
-					
-						CallableStatement cs = db.getConnection().prepareCall("UPDATE [Person] SET FirstName = ?, LastName = ?, ");
-						SELECT perpasswordsalt, perpasswordhash FROM [Person] WHERE (username = ?)
-				cs.setString(1, username);
-				ResultSet rs = cs.executeQuery();
-						
-						us.register(username.getText(), password.getText())
-					new GUIFrame(db, username.getText());
-					setVisible(false);
-				} else {
-					return;
-				}
-			}
-			
-		});
-		
-		registerButton.setPreferredSize(new Dimension(100, 30));
-		
+//		registerButton.addActionListener(new ActionListener() {
+//			
+//			@Override
+//			public void actionPerformed(ActionEvent e) {
+//				
+//				if(fNameLabel.getText() != null && lNameLabel.getText() != null && 
+//						birthdateLabel.getText() != null && addressLabel.getText() != null && 
+//						phoneLabel.getText() != null) {
+//					
+//						CallableStatement cs = db.getConnection().prepareCall("UPDATE [Person] SET FirstName = ?, LastName = ?, Birthdate = ?, PerAddress = ?, PhoneNumber = ? WHERE (username = ?)");
+//						SELECT perpasswordsalt, perpasswordhash FROM [Person] WHERE (username = ?)
+//				cs.setString(1, username);
+//				ResultSet rs = cs.executeQuery();
+//						
+//						us.register(username.getText(), password.getText())
+//					new GUIFrame(db, username.getText());
+//					setVisible(false);
+//				} else {
+//					return;
+//				}
+//			}
+//			
+//		});
+//		
+//		registerButton.setPreferredSize(new Dimension(100, 30));
+//		
 		buttonpanel.add(registerButton);
 		
 		add(buttonpanel, BorderLayout.SOUTH);
