@@ -90,7 +90,7 @@ public class LoginFrame extends JFrame {
 				boolean ma = as.getManagerAccess(username.getText());
 				
 				if(us.register(username.getText(), password.getText())) {
-					new GUIFrame(db, username.getText(), ea, ma);
+					new RegInfoFrame(db, username.getText());
 					setVisible(false);
 				} else {
 					return;
