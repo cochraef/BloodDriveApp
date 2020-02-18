@@ -42,6 +42,7 @@ public class GUIFrame extends JFrame {
 		setMinimumSize(new Dimension(WIDTH, HEIGHT));
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setResizable(false);
+		setTitle("Blood Drive Database");
 		
 		if(db.getConnection() == null) {
 			 JOptionPane.showMessageDialog(this, "Failed to connect to the database!");
