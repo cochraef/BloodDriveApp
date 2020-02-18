@@ -73,7 +73,7 @@ public class GUIFrame extends JFrame {
 		panel1.CreateAppointmentRemover(ac, ar);
 		
 		panel2.CreateDriveViewer(dr);
-		panel2.CreateAppointmentScheduler(as, panel1, ar);
+		panel2.CreateAppointmentScheduler(as, panel1, panel3, ar, es);
 		
 		panel3.CreateEmployeeFinder(ar, es);
 		panel3.CreateEmployeeScheduler(ar, es);

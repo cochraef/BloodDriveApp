@@ -48,7 +48,7 @@ public class SchedulePanel extends JPanel {
 	
 	
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	public void CreateAppointmentScheduler(AppointmentSchedulerService as, ViewPanel panel1, AppointmentRetrivalService ar) {
+	public void CreateAppointmentScheduler(AppointmentSchedulerService as, ViewPanel panel1, EmployeeSchedulePanel panel3, AppointmentRetrivalService ar, EmployeeSchedulerService es) {
 		
 		JButton scheduleButton = new JButton("Schedule Appointment");
 		
@@ -89,6 +89,7 @@ public class SchedulePanel extends JPanel {
 				as.addAppointment(username, time, date, locationID, startTime, endTime);
 				
 				panel1.CreateAppointmentViewer(ar);
+				panel3.CreateEmployeeFinder(ar, es);
 				
 			}
 			
