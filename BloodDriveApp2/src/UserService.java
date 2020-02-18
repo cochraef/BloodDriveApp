@@ -30,8 +30,10 @@ public class UserService {
 				return false;
 			}
 		} catch (Exception e) {
-			if(e.getMessage().equals("The result set has no current row.")) {
-				return false;
+			if(e.getMessage() != null) {
+				if(e.getMessage().equals("The result set has no current row.")) {
+					return false;
+				}
 			}
 			e.printStackTrace();
 		}
