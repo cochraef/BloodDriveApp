@@ -25,7 +25,8 @@ public class DatabaseConnectionService {
 		try {
 			connection = DriverManager.getConnection(connectionUrl);
 		} catch (SQLException e) {
-			return false;
+			e.printStackTrace();
+			//return false;
 		}
 		
 		return true;

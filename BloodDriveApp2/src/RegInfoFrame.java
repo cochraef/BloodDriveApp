@@ -5,6 +5,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.CallableStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -18,8 +19,10 @@ import javax.swing.border.EmptyBorder;
 public class RegInfoFrame extends JFrame {
 	
 	private UserService us;
+	public String username;
 	
 	public RegInfoFrame(DatabaseConnectionService db, String username) {
+		this.username = username;
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setLocation(600, 400);
 		setMinimumSize(new Dimension(450, 300));
@@ -27,12 +30,12 @@ public class RegInfoFrame extends JFrame {
 		setTitle("User Registration");
 		us = new UserService(db);
 		
-		addFrames(db);
+		addFrames(db, username);
 		
 		setVisible(true);
 	}
 
-	private void addFrames(DatabaseConnectionService db) {
+	private void addFrames(DatabaseConnectionService db, String username) {
 		JPanel panel = new JPanel(new GridLayout(0, 2,10,10));
 		panel.setBorder(new EmptyBorder(10, 10, 10, 10));
 		
@@ -78,32 +81,37 @@ public class RegInfoFrame extends JFrame {
 		buttonpanel.setPreferredSize(new Dimension(200, 40));
 		JButton registerButton = new JButton("Register");
 		
-//		registerButton.addActionListener(new ActionListener() {
-//			
-//			@Override
-//			public void actionPerformed(ActionEvent e) {
-//				
-//				if(fNameLabel.getText() != null && lNameLabel.getText() != null && 
-//						birthdateLabel.getText() != null && addressLabel.getText() != null && 
-//						phoneLabel.getText() != null) {
-//					
-//						CallableStatement cs = db.getConnection().prepareCall("UPDATE [Person] SET FirstName = ?, LastName = ?, Birthdate = ?, PerAddress = ?, PhoneNumber = ? WHERE (username = ?)");
-//						SELECT perpasswordsalt, perpasswordhash FROM [Person] WHERE (username = ?)
-//				cs.setString(1, username);
-//				ResultSet rs = cs.executeQuery();
-//						
-//						us.register(username.getText(), password.getText())
-//					new GUIFrame(db, username.getText());
-//					setVisible(false);
-//				} else {
-//					return;
-//				}
-//			}
-//			
-//		});
-//		
-//		registerButton.setPreferredSize(new Dimension(100, 30));
-//		
+		registerButton.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				
+				if(fNameText.getText() != null && lNameText.getText() != null && 
+					birthdateText.getText() != null && addressText.getText() != null && 
+					phoneText.getText() != null) {
+					
+					
+					CallableStatement cs;
+					try {
+						cs = db.getConnection().prepareCall("{ ? = call addNewPerson([" + username + "], [" + fNameText.getText() + "], [" + lNameText.getText() + "], [" + birthdateText.getText() + "], [" + addressText.getText() + "], [" + phoneText.getText() + "])}");
+						cs.setString(1, username);
+						ResultSet rs = cs.executeQuery();
+					} catch (SQLException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+					
+					new GUIFrame(db, username, false, false);
+					setVisible(false);
+				} else {
+					return;
+				}
+			}
+			
+		});
+		
+		registerButton.setPreferredSize(new Dimension(100, 30));
+		
 		buttonpanel.add(registerButton);
 		
 		add(buttonpanel, BorderLayout.SOUTH);
