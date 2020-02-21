@@ -13,7 +13,7 @@ public class DriveRetrivalService {
 
 	public Object[][] getDrives() {
 		try {
-			String query = "SELECT StreetLine1, StreetLine2, City, State, ZipCode, EventDate, StartTime, EndTime " + 
+			String query = "SELECT StreetLine1, StreetLine2, City, State, ZipCode, EventDate " + 
 						   "FROM BloodDriveEvent JOIN Location l ON LocationID = l.ID";
 			PreparedStatement stmt = dbService.getConnection().prepareStatement(query);
 			ResultSet rs = stmt.executeQuery();
@@ -34,8 +34,6 @@ public class DriveRetrivalService {
 			int stindex = rs.findColumn("State");
 			int zcindex = rs.findColumn("ZipCode");
 			int edindex = rs.findColumn("EventDate");
-			int t1index = rs.findColumn("StartTime");
-			int t2index = rs.findColumn("EndTime");
 			
 			ArrayList<Object[]> jank = new ArrayList<Object[]>();
 			while(rs.next()) {
@@ -46,8 +44,6 @@ public class DriveRetrivalService {
 				row[3] = rs.getString(stindex);
 				row[4] = rs.getString(zcindex);
 				row[5] = rs.getString(edindex);
-				row[6] = rs.getString(t1index).substring(0, 8);
-				row[7] = rs.getString(t2index).substring(0, 8);
 				jank.add(row);
 			}
 			

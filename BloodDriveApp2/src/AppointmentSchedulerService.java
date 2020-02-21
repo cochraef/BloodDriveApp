@@ -13,7 +13,7 @@ public class AppointmentSchedulerService {
 
 	public boolean addAppointment(String username, String time, String date, Integer locationID, String startTime, String endTime) {
 		try {
-			String query = "{? = call scheduleAppointment([" + username + "], [" + date + "], [" + time + "], [" + locationID + "], [" + startTime + "], [" + endTime + "], 1)}";
+			String query = "{? = call scheduleAppointment([" + username + "], [" + date + "], [" + time + "], [" + locationID + "], 1)}";
 			CallableStatement cs = dbService.getConnection().prepareCall(query);
 			cs.registerOutParameter(1, Types.INTEGER);
 			cs.execute();
@@ -21,11 +21,6 @@ public class AppointmentSchedulerService {
 			
 			if(errorCode == 1) {
 				JOptionPane.showMessageDialog(null, "Already an appointment scheduled for that time");
-				return false;
-			}
-			
-			if(errorCode == 2) {
-				JOptionPane.showMessageDialog(null, "Drive is not scheduled for this time");
 				return false;
 			}
 

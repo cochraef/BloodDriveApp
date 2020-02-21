@@ -30,7 +30,7 @@ public class SchedulePanel extends JPanel {
 
 	
 	public void CreateDriveViewer(DriveRetrivalService dr) {
-		String[] columnNames = {"Street Line 1", "Street Line 2", "City", "State", "Zip Code", "Event Date", "Start Time", "End Time"};
+		String[] columnNames = {"Street Line 1", "Street Line 2", "City", "State", "Zip Code", "Event Date"};
 		
 		Object[][] data = dr.getDrives();
 		
@@ -55,7 +55,7 @@ public class SchedulePanel extends JPanel {
 		String[] times = { 
 				"1:00 AM", "2:00 AM", "3:00 AM", "4:00 AM", "5:00 AM", "6:00 AM",
 				"7:00 AM", "8:00 AM", "9:00 AM", "10:00 AM", "11:00 AM",
-				"12:00 PM", "1:00 PM", "2:00 PM", "3:00 PM", "4:00 PM", "5:00 PM",
+				"12:00 PM", "1:00 PM", "2:00 PM", "3:00 PM", "4:00 PM", "5:00 PM", "6:00 PM"
 				"7:00 PM", "8:00 PM", "9:00 PM", "10:00 PM", "11:00 PM", "12:00 AM"
 		};
 		
