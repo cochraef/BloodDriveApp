@@ -67,10 +67,7 @@ public class EmployeeSchedulerService {
 
 	public boolean scheduleAppointment(String eusername, String dusername, String date, String time) {
 		try {
-			String query0 = "SELECT ID " + 
-					"FROM Appointment " + 
-					"JOIN GoesTo ON ID = AppointmentID " + 
-					"WHERE PersonUsername = ? AND ApptTime = ? AND ApptDate = ?";
+			String query0 = "SELECT * FROM GetAppointmentFromPersonDateTime(?, ?, ?)";
 			PreparedStatement stmt = dbService.getConnection().prepareStatement(query0);
 			stmt.setString(1, dusername);
 			stmt.setString(2, time);

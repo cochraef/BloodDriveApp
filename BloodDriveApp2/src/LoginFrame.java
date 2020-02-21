@@ -8,6 +8,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
 @SuppressWarnings("serial")
@@ -34,7 +35,7 @@ public class LoginFrame extends JFrame {
 		JLabel lusername = new JLabel("Username");
 		JLabel lpassword = new JLabel("Password");
 		JTextField username = new JTextField();
-		JTextField password = new JTextField();
+		JPasswordField password = new JPasswordField();
 		JPanel usernamepanel = new JPanel();
 		JPanel passwordpanel = new JPanel();
 		JPanel buttonpanel = new JPanel();
@@ -67,7 +68,7 @@ public class LoginFrame extends JFrame {
 				
 				if(ma) ea = ma;
 				
-				if(us.login(username.getText(), password.getText())) {
+				if(us.login(username.getText(), String.valueOf(password.getPassword()))) {
 					new GUIFrame(db, username.getText(), ea, ma);
 					setVisible(false);
 				} else {
@@ -89,7 +90,9 @@ public class LoginFrame extends JFrame {
 				boolean ea = as.getEmployeeAccess(username.getText());
 				boolean ma = as.getManagerAccess(username.getText());
 				
-				if(us.register(username.getText(), password.getText())) {
+				if(ma) ea = ma;
+				
+				if(us.register(username.getText(), String.valueOf(password.getPassword()))) {
 					new RegInfoFrame(db, username.getText());
 					setVisible(false);
 				} else {
