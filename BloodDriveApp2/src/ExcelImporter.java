@@ -30,7 +30,7 @@ public class ExcelImporter {
 		Connection connection = null;
 		
 		String serverName = "golem.csse.rose-hulman.edu";
-		String databaseName = "BloodDriveDatabase2";
+		String databaseName = "BloodDriveDatabase";
 
 		
 		String connectionUrl = jdbcURL.replaceFirst("\\$\\{[a-zA-Z]*\\}", serverName);
@@ -120,7 +120,7 @@ public class ExcelImporter {
 			Sheet secondSheet = workbook.getSheetAt(1);
 			Iterator<Row> rowIterator2 = secondSheet.iterator();
 
-			String locationSql = "INSERT INTO Location (ID, StreetLine1, StreetLine2, City, State, ZipCode, Capacity, ContactName, ContactNumber) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+			String locationSql = "SET IDENTITY_INSERT Location ON INSERT INTO Location (ID, StreetLine1, StreetLine2, City, State, ZipCode, Capacity, ContactName, ContactNumber) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?) SET IDENTITY_INSERT Location OFF";
 			PreparedStatement locationStatement = connection.prepareStatement(locationSql);
 			
 			rowIterator2.next(); // skip the header row
