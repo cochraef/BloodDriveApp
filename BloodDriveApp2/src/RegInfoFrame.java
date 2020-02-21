@@ -6,6 +6,7 @@ import java.awt.event.ActionListener;
 import java.sql.CallableStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Types;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -85,27 +86,28 @@ public class RegInfoFrame extends JFrame {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				
-				if(fNameText.getText() != null && lNameText.getText() != null && 
-					birthdateText.getText() != null && addressText.getText() != null && 
-					phoneText.getText() != null) {
 					
 					
-					CallableStatement cs;
-					try {
-						cs = db.getConnection().prepareCall("{ ? = call addNewPerson([" + username + "], [" + fNameText.getText() + "], [" + lNameText.getText() + "], [" + birthdateText.getText() + "], [" + addressText.getText() + "], [" + phoneText.getText() + "])}");
-						cs.setString(1, username);
-						ResultSet rs = cs.executeQuery();
-					} catch (SQLException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
+				CallableStatement cs;
+				try {
+					cs = db.getConnection().prepareCall("{ ? = call addNewPerson([" + username + "], [" + fNameText.getText() + "], [" + lNameText.getText() + "], [" + birthdateText.getText() + "], [" + addressText.getText() + "], [" + phoneText.getText() + "])}");
+					cs.setString(1, username);
+					cs.registerOutParameter(1, Types.INTEGER);
+					cs.execute();
+					int errorCode = cs.getInt(1);
+					
+					if(errorCode == 1) {
+						JOptionPane.showMessageDialog(null, "THIS IS BAD");
 					}
-					
-					new GUIFrame(db, username, false, false);
-					setVisible(false);
-				} else {
+				} catch (SQLException e1) {
+					e1.printStackTrace();
+					JOptionPane.showMessageDialog(null, "Please ensure all fields are non-empty and phone numbers and birthdays are valid.");
 					return;
 				}
+				
+				new GUIFrame(db, username, false, false);
+				setVisible(false);
+
 			}
 			
 		});
