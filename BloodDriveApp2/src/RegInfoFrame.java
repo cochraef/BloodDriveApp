@@ -100,7 +100,6 @@ public class RegInfoFrame extends JFrame {
 						JOptionPane.showMessageDialog(null, "THIS IS BAD");
 					}
 				} catch (SQLException e1) {
-					e1.printStackTrace();
 					JOptionPane.showMessageDialog(null, "Please ensure all fields are non-empty and phone numbers and birthdays are valid.");
 					return;
 				}
